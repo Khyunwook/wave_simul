@@ -1,0 +1,12 @@
+.wavesimul {
+  background-color : #fff;
+}
+ion-card ion-card-header {
+  color: map-get($colors, primary);
+  font-weight : bold;
+}
+
+.followcar {
+  font-weight: bold;
+  color: map-get($colors, dark);
+}
