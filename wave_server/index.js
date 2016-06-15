@@ -1,11 +1,24 @@
 var io = require('socket.io'),
+    express = require('express');
     http = require('http'),
-    server = http.createServer(),
-    io = io.listen(server);
+    connect = require('connect');
+    path = require('path');
+var app = express();
 
-io.on('connection', function(socket){
-  console.log('User connected');
+app.use(express.bodyParser());
+app.use(express.cookieParser('your secret here'));
+app.use(express.session());
+app.use(express.static(path.join(__dirname, 'public/www')));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
+
+var httpServer =http.createServer(app).listen(3100, function(req,res){
+    console.log('Socket IO server has been started');
 });
+// upgrade http server to socket.io server
+var io = require('socket.io').listen(httpServer);
+
 
 var socket_ids = [];
 
@@ -63,7 +76,3 @@ io.sockets.on('connection',function(socket){
 
 });
 //setInterval(function(){ console.log("cch")},1000);
-
-server.listen(3100, function(){
-  console.log('Server started');
-});
